@@ -13,9 +13,6 @@ tienen por nombre el símbolo con el cual la empresa cotiza en bolsa (US), por e
 Dados un directorio con archivos CSV, una lista de símbolos, una lista de fechas y el nombre de una columna construir
 una estructura que contenga para cada fecha, el valor de la columna para cada símbolo.
 
-
-
-
 #### Implementación y Tests
 
 En `src/test/scala/` encontrarás un archivo `XXXTest` con los tests vacíos para validar la implementación.
