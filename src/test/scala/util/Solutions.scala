@@ -13,6 +13,7 @@ trait Solutions {
 
   val symbols     = Set( "AAPL", "AMZN")
   val badSymbols  = Set( "AAPL", "AMZN", "BAD")
+  val noSymbols  = Set( "NOEXISTENT", "BAD")
 
 
 }
