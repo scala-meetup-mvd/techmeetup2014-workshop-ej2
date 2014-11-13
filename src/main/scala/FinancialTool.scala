@@ -1,6 +1,11 @@
 import java.text.SimpleDateFormat
 import java.util.Date
 
+import java.nio.file.{ Files, Paths }
+
+import scala.collection.JavaConversions._
+import scala.io.Source
+
 /** XXX
  * Created by f on 11/12/14.
  */
@@ -14,9 +19,30 @@ object FinancialTool {
 
   val columnNames = Seq("Open","High","Low","Close","Volume", "AdjClose")
 
-  def findFiles(root: String, symbols: Set[Sym]): Seq[String] = ???
+  val NameExtR = """(.*)\.([^.]*)""".r
 
-  def readLines(file: String):  Seq[String] = ???
+  def findFiles(root: String, symbols: Set[Sym]): Seq[String] = {
+    val javaStream = Files.list(Paths.get(root))
+
+    val scalaStream = javaStream.iterator.toStream // usa JavaConversions._
+
+    for {
+      path <- scalaStream
+      fileName = path.getFileName.toString
+      Seq(name, ext) <- NameExtR.unapplySeq(fileName)
+      if ext.toLowerCase == "csv" && symbols.contains(name)
+    } yield {
+      path.toString
+    }
+  }
+
+  def allLines(file: String): Seq[String] = Source.fromFile(file).getLines
+
+  private def parseColumnNames: Seq[String] = ???
+
+  def readLines(file: String):  Seq[String] = Source.fromFile(file).getLines.toSeq
+
+
 
   def parseLine(line:String): Row  = ???
 
