@@ -18,16 +18,12 @@ object FinancialTool {
 
   val columnNames = Seq("Open","High","Low","Close","Volume", "AdjClose")
 
-  def findFiles(root: String, symbols: Set[Sym]): Seq[String] = {
-    symbols.map { sym =>
+  def findFile(root: String, sym: Sym): Option[String]  = {
       val f = new File(root+"/"+sym+".csv")
       if (f.exists())
-        Some(f.getAbsolutePath)
+        Option(f.getAbsolutePath)
       else
         None
-    }
-      .flatten
-      .toSeq
   }
 
   def readLines(file: String): Seq[String] = {
@@ -46,7 +42,21 @@ object FinancialTool {
 
 
 
-  def query(root: String, symbols: Set[Sym], dates: Seq[Date], col: String): Map [Date, Seq[SymValue]] = ???
+  def query(root: String, symbols: Set[Sym], dates: Seq[Date], col: String): Map [Date, Seq[SymValue]] = {
+//    val allData = symbols.map { sym =>
+//      val rows =
+//        for {
+//          file  <- findFiles(root, sym)
+//          line  <- readLines(file)
+//        } yield parseLine(line)
+//      (sym, rows)
+//    }.toMap
+//    val x = for {
+//      (k,v) <- allData
+//      //rows <- v.toMap[]
+//    }
+    ???
+  }
 
 
   private def dateFromString(date: String) = {
