@@ -3,7 +3,7 @@ package util
 import org.scalatest._
 
 /** Base class for tests */
-trait ScalaMeetupSpec extends FlatSpec
+trait BaseSpec extends FlatSpec
   with Matchers
   with OptionValues
   with Inside
