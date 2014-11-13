@@ -6,7 +6,6 @@ import java.util.Date
  */
 object FinancialTool {
 
-
   type Sym      = String
   type SymValue = (Sym, Double)
 
