@@ -35,7 +35,7 @@ object FinancialTool {
   }
 
 
-  def parseLine(line:String): Row  = {
+  def parseLine(line:String): Option[Row]  = {
     val cell = line.split(",").lift
     val 
     for {
