@@ -9,7 +9,7 @@ class FinancialReaderTest extends ScalaMeetupSpec with Solutions {
 
   "Financial" should "for get correct files for a list symbols " in {
     findFiles(smallDataSetDir, symbols ) should have size 1
-    findFiles(dataSetDir, symbols ) should have size 1
+    findFiles(dataSetDir, symbols ) should have size 2
   }
 
   // Debe soportar simbolos no existentes, mezclados con existentes.
