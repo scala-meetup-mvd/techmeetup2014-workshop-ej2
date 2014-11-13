@@ -46,7 +46,7 @@ object FinancialTool {
 
 
 
-  def query(symbols: Seq[Sym], dates: Seq[Date], col: String): Map [Date, Seq[SymValue]] = ???
+  def query(root: String, symbols: Set[Sym], dates: Seq[Date], col: String): Map [Date, Seq[SymValue]] = ???
 
 
   private def dateFromString(date: String) = {
