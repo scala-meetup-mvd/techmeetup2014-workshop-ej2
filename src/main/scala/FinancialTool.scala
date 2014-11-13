@@ -8,13 +8,13 @@ object FinancialTool {
 
   type Sym      = String
   type SymValue = (Sym, Double)
+  type Column   = (String, Double)
 
-  type Column = (String, Double)
   case class Row(date: Date, columns: Map[String, Double])
 
   val columnNames = Seq("Open","High","Low","Close","Volume", "AdjClose")
 
-  def findFiles(root: String, symbols: Set[Sym]): Seq[String] = ???
+  def findFile(root: String, symbol: Sym): Option[String] = ???
 
   def readLines(file: String):  Seq[String] = ???
 
