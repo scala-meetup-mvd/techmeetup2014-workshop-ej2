@@ -1,3 +1,4 @@
+import java.io.File
 import java.util.Date
 
 /** XXX
@@ -9,7 +10,17 @@ object FinancialReader {
   type Sym      = String
   type SymValue = (Sym, Double)
 
-  def findFiles(root: String, symbols: Set[Sym]): Seq[String] = ???
+  def findFiles(root: String, symbols: Set[Sym]): Seq[String] = {
+    symbols.map { sym =>
+      val f = new File(root+"/"+sym+".csv")
+      if (f.exists())
+        Some(f.getAbsolutePath)
+      else
+        None
+    }
+    .flatten
+    .toSeq
+  }
 
   def readLines(file: String):  Seq[String] = ???
 
