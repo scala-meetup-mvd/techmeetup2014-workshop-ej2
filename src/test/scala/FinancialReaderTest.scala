@@ -1,22 +1,31 @@
-import util.ScalaMeetupSpec
+import util.{Solutions, ScalaMeetupSpec}
 
 /** Tests to validate your implementation
   *
   */
-class FinancialReaderTest extends ScalaMeetupSpec {
+class FinancialReaderTest extends ScalaMeetupSpec with Solutions {
 
-  "Financial" should "be able to read a file given a name " in pendingU
+  import FinancialReader._
 
-  // Leer un file, verificar las lines
-  // Para un par de simbolos, que vengan los archivos
+  "Financial" should "for get correct files for a list symbols " in {
+    findFiles(smallDataSetDir, symbols ) should have size 1
+    findFiles(dataSetDir, symbols ) should have size 1
+  }
+
   // Debe soportar simbolos no existentes, mezclados con existentes.
+  it should "accept symbols that exist and symbols that not" in pendingU()
+
   // Debe soportar que no exista ningun symbol
+  it should "return an empty dataset if no symbol exists" in pendingU()
 
   // Debe leer solo las lineas relevantes
+  it should "be able to get correct number of lines for a file" in pendingU()
 
   // Debe poder construir un row a partir de una linea
+  it should "be able to build a row from a line" in pendingU()
+
   // Debe poder construir un row a partir de una linea rota
-  // Debe contruir un row vacio si no encuentra ninguna columna
+  it should "be able to build a row from a malformed line" in pendingU()
 
   // Para un sample X debe retornar data correcta.
 

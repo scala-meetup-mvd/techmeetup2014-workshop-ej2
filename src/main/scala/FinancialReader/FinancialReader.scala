@@ -3,15 +3,15 @@ import java.util.Date
 /** XXX
  * Created by f on 11/12/14.
  */
-class FinancialReader {
+object FinancialReader {
 
   type Row      = Map[String, Double]
   type Sym      = String
   type SymValue = (Sym, Double)
 
-  def findFiles(root: String, symbols: Seq[Sym]) = ???
+  def findFiles(root: String, symbols: Set[Sym]): Seq[String] = ???
 
-  def readLines(file: String) = Seq[String]
+  def readLines(file: String):  Seq[String] = ???
 
   def parseLine(line:String): Row  = ???
 
