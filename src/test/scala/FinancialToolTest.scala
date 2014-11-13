@@ -31,14 +31,12 @@ class FinancialToolTest extends BaseSpec with Solutions {
 
   // Debe poder construir un row a partir de una linea
   it should "be able to build a row from a line" in {
-    val l = parseLine(line)
-    l.columns should have size 6 // 7 columns less date column, 6.
+    parseLine(line).map(_.columns) should be (Some(6)) // 7 columns less date column, 6.
   }
 
   // Debe poder construir un row a partir de una linea rota
   it should "be able to build a row from a malformed line" in {
-    val l = parseLine(linePartial)
-    l.columns should have size 6 // 7 columns less date column, 6.
+    parseLine(linePartial).map(_.columns) should be (Some(4)) // 5 columns less date column, 4.
   }
 
   // Para un sample X debe retornar data correcta.
