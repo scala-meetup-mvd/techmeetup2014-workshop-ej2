@@ -8,20 +8,20 @@ class FinancialToolTest extends BaseSpec with Solutions {
   import FinancialTool._
 
   "The Tool" should "get correct files for a list symbols " in {
-        symbols.map( findFile(smallDataSetDir, _) )
-          .flatten should have size 2
+    symbols.map( findFile(dataSetDir, _) )
+      .flatten should have size 2
   }
 
   // Debe soportar simbolos no existentes, mezclados con existentes.
   it should "accept symbols that exist and symbols that not" in {
-    badSymbols.map( findFile(smallDataSetDir, _) )
+    badSymbols.map( findFile(dataSetDir, _) )
       .flatten should have size 2
   }
 
   // Debe soportar que no exista ningun symbol
   it should "return an empty file list if no symbol exists" in {
-    noSymbols.map( findFile(smallDataSetDir, _) )
-      .flatten should have size 2
+    noSymbols.map( findFile(dataSetDir, _) )
+      .flatten should have size 0
   }
 
   // Debe leer solo las lineas relevantes
