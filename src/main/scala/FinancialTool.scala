@@ -15,8 +15,10 @@ object FinancialTool {
 
   type Sym      = String
   type SymValue = (Sym, Double)
+  type Column   = (String, Double)
 
-  val columnNames = Seq("Open","High","Low","Close","Volume", "AdjClose")
+
+  val columnNames = Set("Open","High","Low","Close","Volume", "AdjClose")
 
   def findFile(root: String, sym: Sym): Option[String]  = {
       val f = new File(root+"/"+sym+".csv")
