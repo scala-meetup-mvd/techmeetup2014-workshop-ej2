@@ -18,7 +18,7 @@ object FinancialTool {
 
   def readLines(file: String):  Seq[String] = ???
 
-  def parseLine(line:String): Row  = ???
+  def parseLine(line:String): Option[Row]  = ???
 
   def query(symbols: Seq[Sym], dates: Seq[Date], col: String): Map [Date, Seq[SymValue]] = ???
 
