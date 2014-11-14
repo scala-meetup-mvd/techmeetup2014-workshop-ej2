@@ -61,7 +61,7 @@ object FinancialTool {
       symbols
         .flatMap(sym => findFile(root, sym).map(sym -> _))
         .toMap
-        .mapValues(file => allLines(file).flatMap(parseLine))
+        .mapValues(parseFile)
 
     val res =
       for {
