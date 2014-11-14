@@ -28,5 +28,6 @@ En `src/main/scala` el archivo `XXX` con funciones sin implementación para comp
 
 #### Técnicas que puedes aplicar
 
+* Mirar la documentación de collections es importante.
 
 
