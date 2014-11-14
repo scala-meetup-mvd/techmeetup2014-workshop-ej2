@@ -10,6 +10,7 @@ import scala.util.Try
  */
 object FinancialTool {
 
+  type Date     = String
   type Sym      = String
   type SymValue = (Sym, Double)
   type Column   = (String, Double)
@@ -25,31 +26,14 @@ object FinancialTool {
     if (file.exists) Some(file.getCanonicalPath) else None
   }
 
-  def allLines(file: String):  Seq[String] = Source.fromFile(file).getLines.toStream 
-
-  def readLines(file: String):  Seq[String] = {
-    for {
-      line <- allLines(file)
-      if parseLine(line).isDefined
-    } yield {
-      line
-    }
-  }
+  val DateRegex = """(\d\d\d\d-\d\d-\d\d)""".r
 
   def parseLine(line:String): Option[Row]  = {
     val parts = line.split(",")
-    val optDateStr = parts.lift(0)
-    val optDate = 
-      for {
-        dateStr <- optDateStr
-        tryDate = Try(dateFromString(dateStr))
-        date <- tryDate.toOption
-      } yield {
-        date
-      }
+    val optDate = parts.lift(0)
 
     for {
-      date <- optDate
+      DateRegex(date) <- optDate
     } yield {
       val columnParts = parts.tail.lift
 
@@ -68,7 +52,11 @@ object FinancialTool {
     }
   }
 
-  def query(root: String, symbols: Seq[Sym], dates: Seq[Date], col: String): Map [Date, Seq[SymValue]] = {
+  def allLines(file: String):  Seq[String] = Source.fromFile(file).getLines.toStream 
+
+  def parseFile(file: String):  Seq[Row] = allLines(file).flatMap(parseLine)
+
+  def query(root: String, symbols: Set[Sym], dates: Seq[Date], col: String): Map [Date, Seq[SymValue]] = {
     val symRows =  
       symbols
         .flatMap(sym => findFile(root, sym).map(sym -> _))
@@ -95,11 +83,6 @@ object FinancialTool {
     res.toMap
   }
 
-
-  def dateFromString(date: String): Date = {
-    val simpleDateFormat = new SimpleDateFormat("YYYY-MM-DD")
-    simpleDateFormat.parse(date)
-  }
-
+   
 
 }
