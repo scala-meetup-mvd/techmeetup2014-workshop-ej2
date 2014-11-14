@@ -39,6 +39,24 @@ class FinancialToolTest extends BaseSpec with Solutions {
     parseLine(linePartial).map(_.columns.size) should be (Some(4)) // 5 columns less date column, 4.
   }
 
+  it should "return accurate data for one symbol and one date" in {
 
+    val dates = Seq("2012-09-12")
+    val syms  = Set("AAPL")
+
+    val data = query(dataSetDir, syms, dates, "open")
+
+    data should have size 1
+
+    for {
+      (date, values)  <- data
+      (sym, value)    <- values
+    } {
+      println( s"Date $date values $values")
+      assert( sym === syms.head  )
+      assert( value === 666.85 )
+    }
+
+  }
 
 }
