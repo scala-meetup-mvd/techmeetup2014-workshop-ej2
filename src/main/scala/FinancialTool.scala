@@ -45,23 +45,31 @@ object FinancialTool {
 
 
   def query(root: String, symbols: Set[Sym], dates: Seq[Date], col: String): Map [Date, Seq[SymValue]] = {
-//    val allData = symbols.map { sym =>
-//      val rows =
-//        for {
-//          file  <- findFiles(root, sym)
-//          line  <- readLines(file)
-//        } yield parseLine(line)
-//      (sym, rows)
-//    }.toMap
-//    val x = for {
-//      (k,v) <- allData
-//      //rows <- v.toMap[]
-//    }
-    ???
+
+    val allData =
+        for {
+          sym   <-  symbols
+          file  <- findFile(root, sym).toList
+          line  <- readLines(file)
+        } yield (sym, parseLine(line))
+
+    val grouped =
+      (for {
+        (sym,row) <- allData
+        date = row.date if dates.contains(date)
+        (c,v) <- row.columns if c.toUpperCase == col.toUpperCase
+      } yield (date, sym, v)).groupBy(_._1)
+
+    grouped.map {
+      case (d,values) => d -> values.map {
+        case (_,s,d) => (s,d)
+      }.toSeq
+    }
+
+
   }
 
-
-  private def dateFromString(date: String) = {
+   def dateFromString(date: String) = {
     val simpleDateFormat = new SimpleDateFormat("YYYY-MM-DD")
     simpleDateFormat.parse(date)
   }

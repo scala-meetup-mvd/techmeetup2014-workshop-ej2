@@ -16,4 +16,5 @@ trait Solutions {
   val noSymbols  = Set( "NOEXISTENT", "BAD")
 
 
+
 }

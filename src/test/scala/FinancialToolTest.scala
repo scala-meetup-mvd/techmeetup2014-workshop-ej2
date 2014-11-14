@@ -41,6 +41,27 @@ class FinancialToolTest extends BaseSpec with Solutions {
     l.columns should have size 6 // 7 columns less date column, 6.
   }
 
-  // Para un sample X debe retornar data correcta.
+  it should "return accurate data for one symbol and one date" in {
+
+
+    val dates = Seq(dateFromString("2012-07-09"))
+    val syms  = Set("AAPL")
+
+
+
+    val data = query(dataSetDir, syms, dates, "High" )
+
+    data should have size 1
+
+    for {
+      (date, values)  <- data
+      (sym, value)    <- values
+    } {
+      println( s"Date $date values $values")
+      assert( sym === syms.head  )
+      assert( value === 605.30 )
+    }
+
+  }
 
 }
