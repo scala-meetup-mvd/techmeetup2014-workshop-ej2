@@ -29,14 +29,27 @@ class FinancialToolTest extends BaseSpec with Solutions {
     parseFile(aaplSmall) should have size 8
   }
 
+  
   // Debe poder construir un row a partir de una linea
   it should "be able to build a row from a line" in {
     parseLine(line).map(_.columns.size) should be (Some(6)) // 7 columns less date column, 6.
+    parseLine(line).flatMap(_.columns.get("Open")) should be (Some(666.85))
+    parseLine(line).flatMap(_.columns.get("High")) should be (Some(669.90))
+    parseLine(line).flatMap(_.columns.get("Low")) should be (Some(656.00))
+    parseLine(line).flatMap(_.columns.get("Close")) should be (Some(669.79))
+    parseLine(line).flatMap(_.columns.get("Volume")) should be (Some(25410600))
+    parseLine(line).flatMap(_.columns.get("AdjClose")) should be (Some(669.79))
   }
 
   // Debe poder construir un row a partir de una linea rota
   it should "be able to build a row from a malformed line" in {
     parseLine(linePartial).map(_.columns.size) should be (Some(4)) // 5 columns less date column, 4.
+    parseLine(linePartial).flatMap(_.columns.get("Open")) should be (Some(666.85))
+    parseLine(linePartial).flatMap(_.columns.get("High")) should be (Some(669.90))
+    parseLine(linePartial).flatMap(_.columns.get("Low")) should be (None)
+    parseLine(linePartial).flatMap(_.columns.get("Close")) should be (Some(669.79))
+    parseLine(linePartial).flatMap(_.columns.get("Volume")) should be (None)
+    parseLine(linePartial).flatMap(_.columns.get("AdjClose")) should be (Some(669.79))
   }
 
   it should "return accurate data for one symbol and one date" in {
