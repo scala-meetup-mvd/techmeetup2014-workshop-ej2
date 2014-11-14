@@ -1,11 +1,11 @@
 import java.text.SimpleDateFormat
-import java.util.Date
 
 /** XXX
  * Created by f on 11/12/14.
  */
 object FinancialTool {
 
+  type Date     = String
   type Sym      = String
   type SymValue = (Sym, Double)
   type Column   = (String, Double)
@@ -16,17 +16,12 @@ object FinancialTool {
 
   def findFile(root: String, symbol: Sym): Option[String] = ???
 
-  def readLines(file: String):  Seq[String] = ???
-
   def parseLine(line:String): Option[Row]  = ???
 
-  def query(symbols: Seq[Sym], dates: Seq[Date], col: String): Map [Date, Seq[SymValue]] = ???
+  def parseFile(file: String):  Seq[Row] = ???
 
+  def query(root: String, symbols: Set[Sym], dates: Seq[Date], col: String): Map [Date, Seq[SymValue]] = ???
 
-  def dateFromString(date: String): Date = {
-    val simpleDateFormat = new SimpleDateFormat("YYYY-MM-DD")
-    simpleDateFormat.parse(date)
-  }
 
 
 }
