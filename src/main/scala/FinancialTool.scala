@@ -16,11 +16,11 @@ object FinancialTool {
 
   def findFile(root: String, symbol: Sym): Option[String] = ???
 
-  def parseFile(file: String):  Seq[Row] = ???
-
   def parseLine(line:String): Option[Row]  = ???
 
-  def query(root: String, symbols: Set[Sym], dates: Seq[String], col: String): Map [String, Seq[SymValue]] = ???
+  def parseFile(file: String):  Seq[Row] = ???
+
+  def query(root: String, symbols: Set[Sym], dates: Seq[Date], col: String): Map [Date, Seq[SymValue]] = ???
 
 
 
