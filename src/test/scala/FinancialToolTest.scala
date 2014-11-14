@@ -26,7 +26,7 @@ class FinancialToolTest extends BaseSpec with Solutions {
 
   // Debe leer solo las lineas relevantes
   it should "be able to get correct number of lines for a file" in {
-    readLines(aaplSmall) should have size 8
+    parseFile(aaplSmall) should have size 8
   }
 
   // Debe poder construir un row a partir de una linea
