@@ -43,13 +43,10 @@ class FinancialToolTest extends BaseSpec with Solutions {
 
   it should "return accurate data for one symbol and one date" in {
 
-
-    val dates = Seq(dateFromString("2012-07-09"))
+    val dates = Seq("2012-07-09")
     val syms  = Set("AAPL")
 
-
-
-    val data = query(dataSetDir, syms, dates, "High" )
+    val data = query(dataSetDir, syms, dates, "High")
 
     data should have size 1
 

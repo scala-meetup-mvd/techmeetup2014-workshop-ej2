@@ -11,7 +11,7 @@ import scala.util.Try
   */
 object FinancialTool {
 
-  case class Row(date: Date, columns: Map[String, Double])
+  case class Row(date: String, columns: Map[String, Double])
 
   type Sym      = String
   type SymValue = (Sym, Double)
@@ -39,12 +39,12 @@ object FinancialTool {
     val (head :: tail) = line.split(",").toList
     val values = tail.map( v => Try(v.toDouble).getOrElse(0D) )
     val columns = columnNames.zip(values).toMap
-    Row( dateFromString(head), columns )
+    Row( head, columns )
   }
 
 
 
-  def query(root: String, symbols: Set[Sym], dates: Seq[Date], col: String): Map [Date, Seq[SymValue]] = {
+  def query(root: String, symbols: Set[Sym], dates: Seq[String], col: String): Map [String, Seq[SymValue]] = {
 
     val allData =
         for {
