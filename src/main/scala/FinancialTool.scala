@@ -18,7 +18,7 @@ object FinancialTool {
   type Column   = (String, Double)
 
 
-  val columnNames = Set("Open","High","Low","Close","Volume", "AdjClose")
+  val columnNames = Seq("Open","High","Low","Close","Volume", "AdjClose")
 
   def findFile(root: String, sym: Sym): Option[String]  = {
       val f = new File(root+"/"+sym+".csv")
@@ -35,11 +35,16 @@ object FinancialTool {
       .filter( ! _.isEmpty )
   }
 
-  def parseLine(line: String): Row  = {
-    val (head :: tail) = line.split(",").toList
-    val values = tail.map( v => Try(v.toDouble).getOrElse(0D) )
-    val columns = columnNames.zip(values).toMap
-    Row( head, columns )
+  def parseLine(line: String): Option[Row]  = {
+    line.split(",").toList match {
+      case (head :: tail) =>
+        val values = tail.map( v => Try(v.toDouble).getOrElse(0D) )
+        val columns = columnNames.zip(values).toMap
+        Some(Row( head, columns ))
+      case _ => None
+    }
+
+
   }
 
 
@@ -48,20 +53,20 @@ object FinancialTool {
 
     val allData =
         for {
-          sym   <-  symbols
+          sym   <- symbols
           file  <- findFile(root, sym).toList
           line  <- readLines(file)
         } yield (sym, parseLine(line))
 
     val grouped =
       (for {
-        (sym,row) <- allData
+        (sym, Some(row)) <- allData
         date = row.date if dates.contains(date)
         (c,v) <- row.columns if c.toUpperCase == col.toUpperCase
       } yield (date, sym, v)).groupBy(_._1)
 
     grouped.map {
-      case (d,values) => d -> values.map {
+      case (date,values) => date -> values.map {
         case (_,s,d) => (s,d)
       }.toSeq
     }
