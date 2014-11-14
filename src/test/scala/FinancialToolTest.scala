@@ -72,4 +72,24 @@ class FinancialToolTest extends BaseSpec with Solutions {
 
   }
 
+  it should "return accurate data if missing column" in {
+
+    val dates = Seq("2012-09-12")
+    val syms  = Set("BRKN")
+
+    val data = query(smallDataSetDir, syms, dates, "close")
+
+    data should have size 1
+
+    for {
+      (date, values)  <- data
+      (sym, value)    <- values
+    } {
+      println( s"Date $date values $values")
+      assert( sym === syms.head  )
+      assert( value === 669.79 )
+    }
+
+  }
+
 }
