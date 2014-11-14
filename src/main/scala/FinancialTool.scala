@@ -20,7 +20,8 @@ object FinancialTool {
 
   def parseLine(line:String): Option[Row]  = ???
 
-  def query(symbols: Seq[Sym], dates: Seq[Date], col: String): Map [Date, Seq[SymValue]] = ???
+  def query(root: String, symbols: Set[Sym], dates: Seq[String], col: String): Map [String, Seq[SymValue]] = ???
+
 
 
   def dateFromString(date: String): Date = {
