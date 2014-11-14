@@ -39,8 +39,8 @@ object FinancialTool {
   def parseLine(line: String): Option[Row] = {
     line.split(",").toList match {
       case (head :: tail) if head.nonEmpty =>
-        val values  = tail.flatMap(v => Try(v.toDouble).toOption)
-        val columns = columnNames.zip(values).toMap
+        val values  = tail.map(v => Try(v.toDouble).toOption)
+        val columns = columnNames.zip(values).toMap.collect { case (k,v) if v.isDefined => (k,v.get) }
         Some(Row(head, columns))
       case _ => None
     }
