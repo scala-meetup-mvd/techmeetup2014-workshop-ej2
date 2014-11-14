@@ -13,6 +13,7 @@ object FinancialTool {
 
   case class Row(date: String, columns: Map[String, Double])
 
+  type Date     = String
   type Sym      = String
   type SymValue = (Sym, Double)
   type Column   = (String, Double)
@@ -28,11 +29,13 @@ object FinancialTool {
         None
   }
 
-  def readLines(file: String): Seq[String] = {
+  def readLines(file: String): Seq[Row] = {
     val p = Paths.get(file)
     Files.readAllLines(p)
       .drop(1)
-      .filter( ! _.isEmpty )
+      .map(parseLine)
+      .filter( ! _.isDefined )
+      .flatten
   }
 
   def parseLine(line: String): Option[Row]  = {
@@ -56,11 +59,11 @@ object FinancialTool {
           sym   <- symbols
           file  <- findFile(root, sym).toList
           line  <- readLines(file)
-        } yield (sym, parseLine(line))
+        } yield (sym, line)
 
     val grouped =
       (for {
-        (sym, Some(row)) <- allData
+        (sym, row) <- allData
         date = row.date if dates.contains(date)
         (c,v) <- row.columns if c.toUpperCase == col.toUpperCase
       } yield (date, sym, v)).groupBy(_._1)
