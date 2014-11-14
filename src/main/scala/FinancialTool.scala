@@ -3,6 +3,7 @@ import java.util.Date
 import java.io.File
 
 import scala.io.Source
+import scala.util.Try
 
 /** XXX
  * Created by f on 11/12/14.
@@ -28,24 +29,71 @@ object FinancialTool {
 
   def readLines(file: String):  Seq[String] = {
     for {
-      line <- allLines
+      line <- allLines(file)
+      if parseLine(line).isDefined
     } yield {
-
+      line
     }
   }
-
 
   def parseLine(line:String): Option[Row]  = {
-    val cell = line.split(",").lift
-    val 
+    val parts = line.split(",")
+    val optDateStr = parts.lift(0)
+    val optDate = 
+      for {
+        dateStr <- optDateStr
+        tryDate = Try(dateFromString(dateStr))
+        date <- tryDate.toOption
+      } yield {
+        date
+      }
+
     for {
-      date <- cell(0)
-      open <- cell(1)
-      high <- cell()
+      date <- optDate
+    } yield {
+      val columnParts = parts.tail.lift
+
+      val validCols =
+        for {
+          (col, i) <- columnNames.zipWithIndex
+          partStr <- columnParts(i)
+          tryPart = Try(partStr.toDouble)
+          part <- tryPart.toOption
+        } yield {
+          col -> part
+        }
+      
+      Row(date, validCols.toMap)
+      
     }
   }
 
-  def query(symbols: Seq[Sym], dates: Seq[Date], col: String): Map [Date, Seq[SymValue]] = ???
+  def query(root: String, symbols: Seq[Sym], dates: Seq[Date], col: String): Map [Date, Seq[SymValue]] = {
+    val symRows =  
+      symbols
+        .flatMap(sym => findFile(root, sym).map(sym -> _))
+        .toMap
+        .mapValues(file => allLines(file).flatMap(parseLine))
+
+    val res =
+      for {
+        date <- dates
+      } yield {
+        val dateSymRows = symRows.mapValues(_.filter(_.date == date))
+
+        val values =
+          for {
+            (sym, rows) <- dateSymRows.toSeq
+            value <- rows.flatMap(_.columns.get(col))
+          } yield {
+            sym -> value
+          }
+
+        date -> values
+      }
+
+    res.toMap
+  }
 
 
   def dateFromString(date: String): Date = {
